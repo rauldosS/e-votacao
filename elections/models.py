@@ -20,5 +20,3 @@ class Election(models.Model):
 
     class Meta:
         ordering = ('year', 'name')
-
-    
