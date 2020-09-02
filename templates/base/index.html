@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+    <title>{% block title %}e-Votação{% endblock %}</title>
+</head>
+<body>
+    <ul>
+        {% if user.is_authenticated %}
+            <li>123</li>
+        {% endif %}
+        <li>323</li>
+        <li>323</li>
+    </ul>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
