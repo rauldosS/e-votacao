@@ -6,7 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/01.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,30i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/evotacao.css' %}">
 
     <title>{% block title %}e-Votação{% endblock %}</title>
 </head>
@@ -18,7 +24,26 @@
         <li>323</li>
         <li>323</li>
     </ul>
+
     {% block content %}
     {% endblock %}
+
 </body>
+
+{% block modal %}
+<!-- Block modal utilizado para importar modais-->
+{% endblock %}
+
+<script scr="{% static 'js/bootstrap.js' %}"></script>
+<script scr="{% static 'js/bootstrap.bundle.js' %}"></script>
+<script scr="{% static 'js/jquery.min.js' %}"></script>
+
+<!-- JS code -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
+<script src="https://kit.fontawesome.com/abf785132f.js" crossorigin="anonymous"></script>
+
+
 </html>

@@ -7,10 +7,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    
     <title>Entrar no e-Votação</title>
+
+    <script scr="{% static 'js/bootstrap.js' %}"></script>
+    <script scr="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="https://kit.fontawesome.com/abf785132f.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="col-md-4 offset-md-4">
@@ -18,16 +22,86 @@
             <div class="card-body">
                 <h4 class="card-title text-center">Entrar no e-Votação</h4>
 
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ value }}">
+                <!-- Button trigger Entrar no e-Votação -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login">
+                    Entrar no e-Votação
+                </button>
 
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary btn-block">Name</button>
-
-                </form>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cadastro">
+                    Cadastro
+                </button>
             </div>
         </div>
     </div>
+    
+    <!-- Entrar no e-Votação -->
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Entrar no e-Votação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_username">Acesso</label>
+                            <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="50" class="form-control" id="id_username" aria-describedby="emailHelp" placeholder="Acesso" required>
+                            <small id="id_username" class="form-text text-muted">Nª de Inscrição do Título Eleitoral</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">Senha</label>
+                            <input type="password" name="password" autocomplete="current-password" class="form-control" id="id_password" placeholder="Senha" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Efetuar Login</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- Cadastro e-Votação -->
+    <div class="modal fade" id="cadastro" tabindex="-1" role="dialog" aria-labelledby="cadastroModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Cadastrar-se no e-Votação</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                <div class="modal-body">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_username">Acesso</label>
+                            <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="50" class="form-control" id="id_username" aria-describedby="emailHelp" placeholder="Acesso" required>
+                            <small id="id_username" class="form-text text-muted">Nª de Inscrição do Título Eleitoral</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password">Senha</label>
+                            <input type="password" name="password" autocomplete="current-password" class="form-control" id="id_password" placeholder="Senha" required>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Efetuar Login</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <!-- JS code -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+
 </body>
 </html>
