@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
-    'home',
-    'elections'
+    'usuario'
 ]
 
 MIDDLEWARE = [
@@ -103,6 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'usuario.Usuario'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -125,8 +125,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'evotacao/static'),
-    os.path.join(BASE_DIR, 'home/static'),
+    os.path.join(BASE_DIR, 'evotacao/static')
+    # os.path.join(BASE_DIR, 'usuario/static'),
+    # os.path.join(BASE_DIR, 'home/static'),
 ]
 
 LOGIN_REDIRECT_URL = '/'
