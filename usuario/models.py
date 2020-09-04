@@ -45,7 +45,7 @@ class Usuario(AbstractBaseUser):
     # voter_registration_number = models.CharField('Número do título de eleitor', max_length=20)
     nickname = models.CharField('Apelido', max_length=255, blank=True, null=True)
     photo = models.ImageField('Foto de perfil', upload_to='perfil/', height_field=None, width_field=None, max_length=200, blank=True, null = True)
-    user_active = models.BooleanField(default=True)
+    user_active = models.BooleanField('Ativo', default=True)
     user_admin = models.BooleanField(default=False)
     objects = UserManager()
 

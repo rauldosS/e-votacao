@@ -13,26 +13,60 @@
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
     <link rel="stylesheet" href="{% static 'css/evotacao.css' %}">
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
 
     <title>{% block title %}e-Votação{% endblock %}</title>
 </head>
 <body>
-    {% if user.is_authenticated %}{% endif %}
+    <div class="sidenav shadow-sm">
+        <a href="{% url 'home:home' %}"><i class="fas fa-home mr-2"></i>Início</a>
+        <a href="#"><i class="fas fa-poll mr-2"></i>Resultados</a>
+        <a href="#"><i class="fas fa-vote-yea mr-2"></i>Eleições</a>
 
-    <div class="container mt-3">
-        <div class='shadow md-shadow-none rounded-lg h-100 overflow-hidden'>
-            <div class='h-100 overflow-y-auto p-3'>
-                {% block content %}
-                
-                {% endblock %}
+        {% if request.user.is_staff %}
+        <button class="dropdown-btn">Administrador<i class="fas fa-chevron-down ml-2"></i></button>
+        <div class="dropdown-container">
+            <a href="http://127.0.0.1:8000/admin/" target="_blank"><i class="fas fa-user-shield mr-2"></i>Admin</a>
+            <a href="{% url 'usuarios:listar_usuarios' %}"><i class="fas fa-user mr-2"></i>Lista de usuários</a>
+        </div>
+        {% endif %}
+        <a href="#">Não sei</a>
+    </div>
+
+    <main>
+        <div class="container mt-3">
+            <div class='shadow md-shadow-none rounded-lg h-100 overflow-hidden'>
+                <div class='h-100 overflow-y-auto p-3'>
+                    {% block content %}
+                    
+                    {% endblock %}
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 </body>
 
 {% block modal %}
 <!-- Block modal utilizado para importar modais-->
 {% endblock %}
+
+<script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+          if (dropdownContent.style.display === "block") {
+            dropdownContent.style.display = "none";
+        } else {
+            dropdownContent.style.display = "block";
+        }
+      });
+    }
+</script>
 
 <script scr="{% static 'js/bootstrap.js' %}"></script>
 <script scr="{% static 'js/bootstrap.bundle.js' %}"></script>
