@@ -1,8 +1,11 @@
+from datetime import date
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 class UserManager(BaseUserManager):
     def create_user(self, email, username, name, password=None):
+        # , fullname, birth_date, cpf, rg
         if not email:
             raise ValueError('Este usuário não possui e-mail!')
     
@@ -32,9 +35,14 @@ class UserManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser):
-    username = models.CharField('Nome de usuário', unique=True, max_length=50)
+    username = models.IntegerField('Número do título de eleitor', unique=True)
     email = models.EmailField('E-mail', max_length=255, unique=True)
     name = models.CharField('Nome', max_length=255, blank=True, null=True)
+    fullname = models.CharField('Nome completo', max_length=1000, null=True)
+    # birth_date = models.DateField('Data de nascimento', auto_now=False, default=date.today())
+    cpf = models.IntegerField('CPF')
+    rg = models.IntegerField('RG')
+    # voter_registration_number = models.CharField('Número do título de eleitor', max_length=20)
     nickname = models.CharField('Apelido', max_length=255, blank=True, null=True)
     photo = models.ImageField('Foto de perfil', upload_to='perfil/', height_field=None, width_field=None, max_length=200, blank=True, null = True)
     user_active = models.BooleanField(default=True)
@@ -56,3 +64,6 @@ class Usuario(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.user_admin
+
+    class Meta:
+        ordering = ('id', 'username')

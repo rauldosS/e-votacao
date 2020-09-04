@@ -22,7 +22,7 @@ class FormularioUsuario(forms.ModelForm):
     password1 = forms.CharField(label='Senha', widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder'='Informe sua senha...',
+            'placeholder': 'Informe sua senha...',
             'id': 'password1',
             'required': 'required'
         }
@@ -31,7 +31,7 @@ class FormularioUsuario(forms.ModelForm):
     password2 = forms.CharField(label='Senha de confirmação', widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
-            'placeholder'='Informe sua senha...',
+            'placeholder': 'Informe sua senha...',
             'id': 'password2',
             'required': 'required'
         }

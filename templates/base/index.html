@@ -17,17 +17,17 @@
     <title>{% block title %}e-Votação{% endblock %}</title>
 </head>
 <body>
-    <ul>
-        {% if user.is_authenticated %}
-            <li>123</li>
-        {% endif %}
-        <li>323</li>
-        <li>323</li>
-    </ul>
+    {% if user.is_authenticated %}{% endif %}
 
-    {% block content %}
-    {% endblock %}
-
+    <div class="container mt-3">
+        <div class='shadow md-shadow-none rounded-lg h-100 overflow-hidden'>
+            <div class='h-100 overflow-y-auto p-3'>
+                {% block content %}
+                
+                {% endblock %}
+            </div>
+        </div>
+    </div>
 </body>
 
 {% block modal %}
