@@ -28,10 +28,9 @@ class Login(FormView):
         login(self.request, form.get_user())
         return super(Login, self).form_valid(form)
 
-
-def logout(request):
-    logout(request)
-    return HttpResponseRedirect('/account/login/')
+    def logout(request):
+        logout(request)
+        return HttpResponseRedirect('/account/login/')
 
 class ListaUsuario(ListView):
     model = Usuario
@@ -43,6 +42,6 @@ class ListaUsuario(ListView):
 class RegistrarUsuario(CreateView):
     model = Usuario
     form_class = FormularioUsuario
-    template_name = 'usuario/criar_usuario.html'
+    template_name = 'usuarios/registrar_usuario.html'
 
-    success_url = reverse_lazy('usuario:registrar_usuarios.html')
+    success_url = reverse_lazy('usuarios:listar_usuarios')

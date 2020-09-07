@@ -19,6 +19,7 @@ class FormularioUsuario(forms.ModelForm):
         - password2: verificação de senha
 
     """
+
     password1 = forms.CharField(label='Senha', widget=forms.PasswordInput(
         attrs={
             'class': 'form-control',
@@ -39,30 +40,52 @@ class FormularioUsuario(forms.ModelForm):
 
     class Meta:
         model = Usuario
-        fields = ('email', 'username', 'name', 'nickname')
+        fields = ('username', 'fullname', 'cpf', 'rg')
         widgets = {
-            'email': forms.TextInput(
+            'fullname': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Email'
-                }
-            ),
-            'name': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'Informe seu nome'
-                }
-            ),
-            'nickname': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'Informe seu apelido'
+                    'placeholder': 'Informe seu nome completo'
                 }
             ),
             'username': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Informe seu nome de usuário'
+                    'placeholder': 'Informe número do título de eleitor',
+                    'type': 'number'
                 }
-            )
+            ),
+            'cpf': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Informe seu CPF',
+                    'type': 'number'
+                }
+            ),
+            'rg': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Informe seu RG',
+                    'type': 'number'
+                }
+            ),
         }
+
+    def clean_password2(self):
+        """ Validação de senha
+
+        Método que valida ambas senhas digitadas no formulário, antes de serem encriptadas e
+        guardadas na base de dados, retornando uma senha valida.
+
+        Exception:
+        - ValidationError -- quando as senhas não são iguais mostra-ra uma mensagem de erro
+        """
+
+        password1 = self.cleaned_data.get['password1']
+        password2 = self.cleaned_data.get['password2']
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError('Senhas digitadas não são iguais!')
+
+        return password2
+        
