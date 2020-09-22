@@ -12,39 +12,72 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    
     <link rel="stylesheet" href="{% static 'css/evotacao.css' %}">
-    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
 
     <title>{% block title %}e-Votação{% endblock %}</title>
 </head>
 <body>
-    <div class="sidenav shadow-sm">
-        <a href="{% url 'home:home' %}"><i class="fas fa-home mr-2"></i>Início</a>
-        <a href="#"><i class="fas fa-poll mr-2"></i>Resultados</a>
-        <a href="#"><i class="fas fa-vote-yea mr-2"></i>Eleições</a>
-
-        {% if request.user.is_staff %}
-        <button class="dropdown-btn">Administrador<i class="fas fa-chevron-down ml-2"></i></button>
-        <div class="dropdown-container">
-            <a href="http://127.0.0.1:8000/admin/" target="_blank"><i class="fas fa-user-shield mr-2"></i>Admin</a>
-            <a href="{% url 'usuarios:listar_usuarios' %}"><i class="fas fa-user mr-2"></i>Lista de usuários</a>
-            <a href="{% url 'usuarios:registrar_usuario' %}"><i class="fas fa-user mr-2"></i>Registro de usuários</a>
+    <main class='w-100 d-flex  overflow-auto {% if not nobar %} no-bar  {% endif %}'>
+        <div class='h-100 shadow d-none d-lg-block d-xl-block bg-white' style='z-index: 10; max-width: 70px'>
+          <div class='container flex-column d-flex h-100 pt-2' style='height: 10vh !important;'>
+            <ul class="d-flex flex-column pl-0 mb-0 ">
+              <a href='{% url "home:home" %}' class="list-group-item list-group-item-action border-0"><i class="fas fa-bars fa-2x"></i></a>
+            </ul>
+          </div>
+          <div class='container flex-column d-flex h-100 pt-2' style="place-content: center; height: 90vh !important;">
+            <ul class="d-flex flex-column pl-0 mb-0 ">
+              <a href='{% url "home:home" %}' data-content="Início" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if module == 'Home' %}active{% endif %}"><i class="fas fa-home fa-2x text-theme"></i></a>
+              <a href='{% url "home:home" %}' data-content="e-Votação" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if module == 'Home' %}active{% endif %}"><i class="fas fa-vote-yea fa-2x text-theme"></i></a>
+              <a href='{% url "home:home" %}' data-content="Resultados" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if module == 'Home' %}active{% endif %}"><i class="fas fa-chart-bar fa-2x text-theme"></i></a>
+              <a href='{% url "home:home" %}' data-content="Usuário" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if module == 'Home' %}active{% endif %}"><i class="fas fa-user fa-2x text-theme"></i></a>
+              <a href='{% url "home:home" %}' data-content="Notificação" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if module == 'Home' %}active{% endif %}"><i class="fas fa-bell fa-2x text-theme"></i></a>
+                
+              {% if user.user_admin %}
+                <a href='{% url "controle:home" %}' data-content="Painel de controle" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-user-shield fa-2x text-theme"></i></a>
+              {% endif %}
+              <a href='/accounts/logout' data-content="Sair" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-power-off fa-2x text-theme"></i></a>
+            </ul>
+            <!-- <div class='flex-fill d-flex'>
+              <div class="px-3 w-100" style=' align-self: flex-end;'>
+              </div>
+            </div> -->
+          </div>
         </div>
-        {% endif %}
-        <a href="#">Não sei</a>
-    </div>
-
-    <main>
-        <div class="container mt-3">
-            <div class='shadow md-shadow-none rounded-lg h-100 overflow-hidden'>
-                <div class='h-100 overflow-y-auto p-3'>
-                    {% block content %}
-                    
-                    {% endblock %}
+        <div class='d-flex flex-column flex-fill'>
+          <nav class='d-none d-lg-block d-xl-block bg-primary text-white   shadow' >
+            <div class='d-flex'>
+                <div class='flex-fill d-flex align-items-center '>
+                    <div class='flex-fill overflow-hidden'  style='height: 65px;'>
+                        <img src="" class='pt-1 pr-1' style='opacity: 0.6;margin-top: -20px;transform: rotate(20deg);height:280px;'>
+                    </div>
+                    <div class='flex-fill text-right d-flex pr-3'>
+                        <h3 class='my-auto d-block'>e-Votação</h3>
+                        <img src="{% static 'assets/images/01.png' %}" class=' d-block ml-auto mb-1 pr-1' style='height:50px;'>
+                    </div>
                 </div>
             </div>
+          </nav>
+          <div class='h-100 w-100 overflow-auto'>
+            {% block content %}
+            {% endblock %}
+          </div>
         </div>
-    </main>
+      </main>
+      {% if not nobar %}
+      <div class='w-100 d-xl-none d-lg-none button-bar shadow-lg d-flex'>
+        <a href='{% url "home:home" %}' class='flex-fill rounded m-1 position-relative'> <i class="fas fa-home"></i></i></a>
+        <a href='{% url "home:home" %}' class='flex-fill rounded m-1'> <i class="fas fa-chart-bar"></i></a>
+        <a href='{% url "home:home" %}' class='flex-fill rounded m-1'> <i class="fas fa-vote-yea"></i></a>
+
+        {% if user.user_admin %}
+            <a href='{% url "controle:home" %}' class='flex-fill rounded m-1'> <i class="fas fa-user-shield"></i></a>  
+        {% endif %}
+        <a href='/accounts/logout' class='flex-fill rounded m-1'> <i class="fas fa-power-off"></i> </a>  
+      </div>
+      {% endif %}
+    
+
 </body>
 
 {% block modal %}
