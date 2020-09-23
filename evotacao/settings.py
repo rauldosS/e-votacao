@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'usuario',
     'home',
-    'controle'
+    'controle',
+    'face_detector'
 ]
 
 MIDDLEWARE = [
