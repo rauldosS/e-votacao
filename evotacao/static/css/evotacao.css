@@ -241,6 +241,10 @@ html {
   font-weight: 500;
 }
 
+.list-group-item.active::after {
+  color: #FFF;
+}
+
 .img-button {
   background-color: transparent;
 }

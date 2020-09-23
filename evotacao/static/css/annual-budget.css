@@ -229,18 +229,6 @@ html {
   padding: 0 1rem;
 }
 
-.list-group-item::after {
-  content: attr(data-content);
-  display: inline-block;
-  left: -20px;
-  width: 70px;
-  position: relative;
-  text-align: center;
-  font-size: small;
-  color: #009b3a;
-  font-weight: 500;
-}
-
 .img-button {
   background-color: transparent;
 }
