@@ -191,6 +191,10 @@ fieldset .fieldBox {
     margin-right: 0;
 }
 
+.errorlist {
+    color: red !important;
+}
+
 .errorlist li {
     background-position: 100% 12px;
     padding: 0;

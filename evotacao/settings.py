@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'usuario',
     'home',
     'controle',
-    'face_detector'
+    'face_detector',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +146,7 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login'
+
+# RECAPTCHA_PUBLIC_KEY = '6LcRDNEZAAAAACBibkrWlWHzHPt8ZrT0j6bNXo1m'
+# RECAPTCHA_PRIVATE_KEY = '6LcRDNEZAAAAAFSBBXC5BuZI-ynbcAh0f7rudVdx'
+# RECAPTCHA_DOMAIN = 'www.recaptcha.net'

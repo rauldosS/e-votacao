@@ -23,11 +23,11 @@
                                 {% csrf_token %}
                                 {{ form.as_p }}
                         </div>
-                        <div class="card-footer text-right">
-                            <a href="{% url 'usuarios:listar_usuarios' %}" class="btn btn-danger">Cancelar</a>
-                            <button class="btn btn-success" type="submit">Registrar</button>
-                        </div>
                     </form>
+                    <div class="card-footer text-right">
+                        <a href="{% url 'usuarios:listar_usuarios' %}" class="btn btn-danger">Cancelar</a>
+                        <button class="btn btn-success" type="submit">Registrar</button>
+                    </div>
                 </div>
             </div>
         </div>

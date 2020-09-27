@@ -551,3 +551,7 @@ label[name="checkbox"]::before {
   -ms-transform: translateY(-50%);
   transform: translateX(-40%);
 }
+
+.errorlist {
+  color: red;
+}
