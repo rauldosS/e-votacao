@@ -1,8 +1,28 @@
 from django.db import models
 import datetime
 from django.utils import timezone
-from django.contrib.auth.models import User
+from usuario.models import Usuario
+from django.conf import settings
 
+TIPO_CHOICES = (
+    ('Eleição Federal', (
+        ('PR', 'Presidente'),
+        ('SN', 'Senador'),
+        ('DF', 'Deputado Federal'),
+    )),
+    ('Eleição Estadual', (
+        ('GV', 'Governador'),
+        ('DE', 'Deputado estadual'),
+    ))
+)
+
+PARTIDO_CHOICES = (
+    ('PSDB', 'Partido da Social Democracia Brasileira'),
+    ('PP', 'Progressistas'),
+    ('Partido Democrático Trabalhista', 'PDT'),
+    ('Partido Trabalhista Brasileiro', 'PTB'),
+    ('TT', 'Teste'),
+)
 
 ESTADO_CHOICES = (
     ('AC', 'Acre'),
@@ -35,24 +55,12 @@ ESTADO_CHOICES = (
 )
 
 class Eleicao(models.Model):
-    TIPO_CHOICES = (
-        ('Eleição Federal', (
-            ('PR', 'Presidentes'),
-            ('SN', 'Senadores'),
-            ('DF', 'Deputados Federais'),
-        )),
-        ('Eleição Estadual', (
-            ('GV', 'Governadores'),
-            ('DE', 'Deputados estaduais'),
-        ))
-    )
-
     ano = models.IntegerField('Ano', default=datetime.datetime.now().year)
     tipo = models.CharField('Tipo', default=1, max_length=2, choices=TIPO_CHOICES)
     estado = models.CharField(max_length=2, blank=True, null=True, choices=ESTADO_CHOICES)
 
     def __str__(self):
-        return str(self.tipo) + ' - ' + str(self.ano)
+        return f'{self.tipo}, {self.ano}'
 
     class Meta:
         verbose_name = 'Eleição'
@@ -61,26 +69,6 @@ class Eleicao(models.Model):
 
 # Create your models here.
 class Candidato(models.Model):
-    TIPO_CHOICES = (
-        ('Eleição Federal', (
-            ('PR', 'Presidente'),
-            ('SN', 'Senador'),
-            ('DF', 'Deputado Federal'),
-        )),
-        ('Eleição Estadual', (
-            ('GV', 'Governador'),
-            ('DE', 'Deputado estadual'),
-        ))
-    )
-    
-    PARTIDO_CHOICES = (
-        ('PSDB', 'Partido da Social Democracia Brasileira'),
-        ('PP', 'Progressistas'),
-        ('Partido Democrático Trabalhista', 'PDT'),
-        ('Partido Trabalhista Brasileiro', 'PTB'),
-        ('TT', 'Teste'),
-    )
-
     nome = models.CharField('Nome', max_length=255)
     nascimento = models.DateField('Data de nascimento', auto_now=False, default=timezone.now)
     titulo = models.CharField('Título', default=1, max_length=2, choices=TIPO_CHOICES)
@@ -89,7 +77,7 @@ class Candidato(models.Model):
     estado = models.CharField('Estado', default=1, max_length=2, choices=ESTADO_CHOICES)
     foto = models.ImageField('Foto de perfil', upload_to='perfil/', height_field=None, width_field=None, max_length=200, blank=True, null = True)
     def __str__(self):
-        return self.nome + ' - ' + self.titulo  + ' - ' + self.partido
+        return f'{self.nome}, {self.titulo}, {self.partido}'
     
     class Meta:
         verbose_name = 'Candidato'
@@ -104,7 +92,32 @@ class Turno(models.Model):
     dat_fim = models.DateField('Data fim', auto_now=False, default=timezone.now)
     candidatos = models.ManyToManyField(Candidato, verbose_name='Candidatos', related_name='candidatos')
 
+    def __str__(self):
+        return f'{self.eleicao}, {self.turno}, {self.dat_ini}, {self.dat_fim}'
+
     class Meta:
         verbose_name = 'Turno'
         verbose_name_plural = 'Turnos'
         ordering = ('id', 'dat_ini', 'dat_fim')
+
+class VotacaoTurnoCandidato(models.Model):
+    turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
+    votos = models.IntegerField(default=0, blank=True, null = True, editable=False)
+
+    class Meta:
+        verbose_name = 'Votação por turno por candidato'
+        verbose_name_plural = 'Votações por turno por candidato'
+        ordering = ('id', 'turno', 'candidato')
+
+class RegistroVotacao(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    eleicao = models.ForeignKey(Eleicao, on_delete=models.CASCADE)
+    turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
+    candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
+    data = models.DateTimeField(auto_now_add=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Registro de votação'
+        verbose_name_plural = 'Registro de votações'
+        ordering = ('id', 'turno', 'candidato')
