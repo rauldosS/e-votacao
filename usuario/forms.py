@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from usuario.models import Usuario
+import re
 
 class FormularioLogin(AuthenticationForm):
     def __init__(self, *args, **kwargs):
@@ -52,14 +53,17 @@ class FormularioUsuario(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'Informe número do título de eleitor',
-                    'type': 'number'
+                    'type': 'text'
                 }
             ),
             'cpf': forms.TextInput(
                 attrs={
                     'class': 'form-control',
                     'placeholder': 'Informe seu CPF',
-                    'type': 'number'
+                    'type': 'text',
+                    'onfocus': 'javascript: retirarFormatacao(this)',
+                    'onblur': 'javascript: formatarCampo(this)',
+                    'maxlength': '11',
                 }
             ),
             'rg': forms.TextInput(
@@ -84,10 +88,63 @@ class FormularioUsuario(forms.ModelForm):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
 
+        print('teste')
+
         if password1 != password2:
             raise forms.ValidationError('Senhas digitadas não são iguais!')
 
         return password2
+
+    # def clean_cpf(self):
+    #     """
+    #         Valida CPFs, retornando apenas a string de números válida.
+        
+    #         # CPFs errados
+    #         >>> validar_cpf('abcdefghijk')
+    #         False
+    #         >>> validar_cpf('123')
+    #         False
+    #         >>> validar_cpf('')
+    #         False
+    #         >>> validar_cpf(None)
+    #         False
+    #         >>> validar_cpf('12345678900')
+    #         False
+        
+    #         # CPFs corretos
+    #         >>> validar_cpf('95524361503')
+    #         '95524361503'
+    #         >>> validar_cpf('955.243.615-03')
+    #         '95524361503'
+    #         >>> validar_cpf('  955 243 615 03  ')
+    #         '95524361503'
+    #     """
+    #     cpf_ = self.cleaned_data.get('cpf')
+
+
+    #     cpf = ''.join(re.findall('\d', str(cpf_)))
+    
+    #     if (not cpf) or (len(cpf) < 11):
+    #         return False
+    
+    #     # Pega apenas os 9 primeiros dígitos do CPF e gera os 2 dígitos que faltam
+    #     inteiros = map(int, cpf)
+    #     novo = inteiros[:9]
+    
+    #     while len(novo) < 11:
+    #         r = sum([(len(novo)+1-i)*v for i,v in enumerate(novo)]) % 11
+    
+    #         if r > 1:
+    #             f = 11 - r
+    #         else:
+    #             f = 0
+    #         novo.append(f)
+    
+    #     # Se o número gerado coincidir com o número original, é válido
+    #     if novo == inteiros:
+    #         return cpf
+    #     else:
+    #         raise forms.validationError('CPF inválido!')
 
     def save(self, commit=True):
         user = super().save(commit = False)

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'home',
     'controle',
     'face_detector',
+    'votacao',
 ]
 
 MIDDLEWARE = [
