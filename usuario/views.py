@@ -11,6 +11,11 @@ from usuario.models import Usuario
 from usuario.forms import FormularioLogin, FormularioUsuario
 
 # Create your views here.
+def home(request):
+    title = 'Dados do usuário'
+
+    return render(request, 'usuarios/home.html', {'title': title})
+
 class Login(FormView):
     template_name = 'login.html'
     form_class = FormularioLogin
