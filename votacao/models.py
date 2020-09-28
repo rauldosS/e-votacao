@@ -42,8 +42,8 @@ class Eleicao(models.Model):
             ('DF', 'Deputados Federais'),
         )),
         ('Eleição Estadual', (
-            ('PR', 'Governadores'),
-            ('SN', 'Deputados estaduais'),
+            ('GV', 'Governadores'),
+            ('DE', 'Deputados estaduais'),
         ))
     )
 
@@ -52,39 +52,59 @@ class Eleicao(models.Model):
     estado = models.CharField(max_length=2, blank=True, null=True, choices=ESTADO_CHOICES)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.tipo) + ' - ' + str(self.ano)
 
     class Meta:
         verbose_name = 'Eleição'
         verbose_name_plural = 'Eleições'
-        ordering = ('ano', 'tipo')
+        ordering = ('id', 'ano', 'tipo')
 
 # Create your models here.
 class Candidato(models.Model):
     TIPO_CHOICES = (
-        ('PR', 'Presidente'),
-        ('SN', 'Senador'),
-        ('VR', 'Vereador')
+        ('Eleição Federal', (
+            ('PR', 'Presidente'),
+            ('SN', 'Senador'),
+            ('DF', 'Deputado Federal'),
+        )),
+        ('Eleição Estadual', (
+            ('GV', 'Governador'),
+            ('DE', 'Deputado estadual'),
+        ))
+    )
+    
+    PARTIDO_CHOICES = (
+        ('PSDB', 'Partido da Social Democracia Brasileira'),
+        ('PP', 'Progressistas'),
+        ('Partido Democrático Trabalhista', 'PDT'),
+        ('Partido Trabalhista Brasileiro', 'PTB'),
+        ('TT', 'Teste'),
     )
 
     nome = models.CharField('Nome', max_length=255)
     nascimento = models.DateField('Data de nascimento', auto_now=False, default=timezone.now)
     titulo = models.CharField('Título', default=1, max_length=2, choices=TIPO_CHOICES)
+    partido = models.CharField('Partido', max_length=255, choices=PARTIDO_CHOICES)
+    numero = models.IntegerField('Número', default=0000)
     estado = models.CharField('Estado', default=1, max_length=2, choices=ESTADO_CHOICES)
     foto = models.ImageField('Foto de perfil', upload_to='perfil/', height_field=None, width_field=None, max_length=200, blank=True, null = True)
-
+    def __str__(self):
+        return self.nome + ' - ' + self.titulo  + ' - ' + self.partido
+    
     class Meta:
         verbose_name = 'Candidato'
         verbose_name_plural = 'Candidatos'
-        ordering = ('nome', 'nascimento')
+        ordering = ('id', 'nome', 'nascimento')
 
 class Turno(models.Model):
+    ativo = models.BooleanField('Ativo', default=True)
     turno = models.IntegerField('Turno', default='1')
     eleicao = models.ForeignKey(Eleicao, on_delete=models.CASCADE)
     dat_ini = models.DateField('Data inicío', auto_now=False, default=timezone.now)
     dat_fim = models.DateField('Data fim', auto_now=False, default=timezone.now)
+    candidatos = models.ManyToManyField(Candidato, verbose_name='Candidatos', related_name='candidatos')
 
     class Meta:
         verbose_name = 'Turno'
         verbose_name_plural = 'Turnos'
-        ordering = ('dat_ini', 'dat_fim')
+        ordering = ('id', 'dat_ini', 'dat_fim')

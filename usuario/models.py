@@ -32,10 +32,40 @@ class UserManager(BaseUserManager):
 
         return user
 
-
 class Usuario(AbstractBaseUser):
+    ESTADO_CHOICES = (
+        ('AC', 'Acre'),
+        ('AL', 'Alagoas'),
+        ('AP', 'Amapá'),
+        ('AM', 'Amazonas'),
+        ('BA', 'Bahia'),
+        ('CE', 'Ceará'),
+        ('DF', 'Distrito Federal'),
+        ('ES', 'Espírito Santo'),
+        ('GO', 'Goiás'),
+        ('MA', 'Maranhão'),
+        ('MT', 'Mato Grosso'),
+        ('MS', 'Mato Grosso do Sul'),
+        ('MG', 'Minas Gerais'),
+        ('PA', 'Pará'),
+        ('PB', 'Paraíba'),
+        ('PR', 'Paraná'),
+        ('PE', 'Pernambuco'),
+        ('PI', 'Piauí'),
+        ('RJ', 'Rio de Janeiro'),
+        ('RN', 'Rio Grande do Norte'),
+        ('RS', 'Rio Grande do Sul'),
+        ('RO', 'Rondônia'),
+        ('RR', 'Roraima'),
+        ('SC', 'Santa Catarina'),
+        ('SP', 'São Paulo'),
+        ('SE', 'Sergipe'),
+        ('TO', 'Tocantins'),
+    )
+
     username = models.IntegerField('Número do título de eleitor', unique=True)
     email = models.EmailField('E-mail', max_length=255, unique=True, null=True)
+    estado = models.CharField(max_length=2, blank=False, null=False, choices=ESTADO_CHOICES)
     # name = models.CharField('Nome', max_length=255, blank=False, null=False)
     fullname = models.CharField('Nome completo', max_length=1000, blank=False, null=False)
     # birth_date = models.DateField('Data de nascimento', auto_now=False, default=date.today())
