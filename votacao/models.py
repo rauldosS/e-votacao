@@ -76,6 +76,7 @@ class Candidato(models.Model):
     numero = models.IntegerField('Número', default=0000)
     estado = models.CharField('Estado', default=1, max_length=2, choices=ESTADO_CHOICES)
     foto = models.ImageField('Foto de perfil', upload_to='perfil/', height_field=None, width_field=None, max_length=200, blank=True, null = True)
+    
     def __str__(self):
         return f'{self.nome}, {self.titulo}, {self.partido}'
     

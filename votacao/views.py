@@ -1,12 +1,15 @@
 from django.shortcuts import render
+import requests
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect,JsonResponse
 from django.urls import reverse
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from votacao.models import Candidato, Turno, Eleicao, VotacaoTurnoCandidato, RegistroVotacao
 from datetime import date, timedelta, datetime
 from django.utils import timezone
 from django.db.models import Q
+import json
 
 # Create your views here.
 def home(request):
@@ -24,8 +27,6 @@ def home(request):
 
     eleicoes = Eleicao.objects.filter((Q(estado=request.user.estado) | Q(estado=None)), ano__gte=int(datetime.now().year))
     turnos = Turno.objects.filter(eleicao__in=(eleicoes), ativo=True)
-
-    print(eleicoes)
 
     for eleicao in eleicoes:
         try:
@@ -51,9 +52,7 @@ def home(request):
                 })
         
         except Turno.DoesNotExist:
-            print('não contém turno')
-        
-    print(data)
+            pass
 
     return render(request, 'votacao/home.html', {'title': title, 'eleicoes': data})
 
@@ -73,9 +72,55 @@ def votar(request, turno_id=0):
         registro = RegistroVotacao.objects.filter(usuario=request.user, turno=turno)
         eleicao = Eleicao.objects.get(id=turno.eleicao.id)
 
-        candidatos = VotacaoTurnoCandidato.objects.filter(turno=turno)
+        dados_eleicao = {
+            'eleicao_id': eleicao.id,
+            'turno_id': turno.id,
+            'candidatos': { }
+        }
 
-        return render(request, 'votacao/votar.html', {'title': title, 'registro': registro, 'turno': turno, 'candidatos': candidatos, 'eleicao': eleicao})
+        candidatos_turno = VotacaoTurnoCandidato.objects.filter(turno=turno)
+
+        for candidato_turno in candidatos_turno:
+            candidato = Candidato.objects.get(id=candidato_turno.candidato.id)
+
+            dados_eleicao['candidatos'].update(
+                { candidato.id : {
+                        'turno': turno.id,
+                        'nome': candidato.nome,
+                        'titulo': candidato.titulo,
+                        'partido': candidato.partido,
+                        'numero': candidato.numero,
+                        'estado': candidato.estado,
+                        'foto': candidato.foto
+                    }
+                }
+            )
+
+        print(dados_eleicao)
+
+        return render(request, 'votacao/votar.html', {'title': title, 'registro': registro, 'eleicao': dados_eleicao})
 
     except Turno.DoesNotExist:
         return HttpResponseRedirect(reverse('votacao:inicio'))
+
+@login_required
+def dados_candidato(request):
+    data = json.loads(request.POST.get('dados', ''))
+    
+    turno = Turno.objects.get(id=int(data['turno_id']))
+    candidato = Candidato.objects.get(id=int(data['candidato_id']))
+    votacaoTurnoCandidato = VotacaoTurnoCandidato.objects.get(turno=turno, candidato=candidato)
+
+    dados = {
+        'votacaoTurnoCandidato': votacaoTurnoCandidato.id,
+        'candidato': {}
+    }
+
+    dados['candidato'].update({
+        'titulo': candidato.titulo,
+        'nome': candidato.nome,
+        'numero': candidato.numero,
+        'partido': candidato.partido
+    })
+
+    return JsonResponse(dados)

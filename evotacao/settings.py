@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -144,10 +145,9 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'home/static'),
 ]
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/votacao/inicio'
 
 LOGOUT_REDIRECT_URL = '/accounts/login'
 
-# RECAPTCHA_PUBLIC_KEY = '6LcRDNEZAAAAACBibkrWlWHzHPt8ZrT0j6bNXo1m'
-# RECAPTCHA_PRIVATE_KEY = '6LcRDNEZAAAAAFSBBXC5BuZI-ynbcAh0f7rudVdx'
-# RECAPTCHA_DOMAIN = 'www.recaptcha.net'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'data/') # 'data' is my media folder
+# MEDIA_URL = '/'

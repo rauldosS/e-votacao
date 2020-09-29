@@ -3,6 +3,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.contrib.staticfiles.urls import static
 from face_detector import views
+from django.contrib.staticfiles.urls import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -12,4 +13,4 @@ urlpatterns = [
     path('controle/', include('controle.urls')),
     path('votacao/', include('votacao.urls')),
     path('', include('home.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

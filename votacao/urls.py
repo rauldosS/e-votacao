@@ -7,4 +7,5 @@ app_name = 'votacao'
 urlpatterns = [
    path('inicio/', views.home, name='inicio'),
    path('votar/<int:turno_id>/', views.votar, name='votar'),
+   path('dados_candidato/', views.dados_candidato, name='dados_candidato')
 ]
