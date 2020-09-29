@@ -10,11 +10,11 @@
                 <h1 class='p-1 m-3 '><i class="fas fa-home"></i></h1>
                 <span class='font-weight-normal my-auto' style='font-size: 1.5rem;'>Painel de controle</span>
             </div>
-            <h5 class='p-3 mb-3'> <i class="fas fa-star pr-3 pl-0 "></i>Painel de controle.</h5>
+            <h5 class='p-3 mb-3'> <i class="fas fa-star pr-3 pl-0 "></i></h5>
 
             <div class="container">
                 <div class="card-deck">
-                    <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card card-control text-white bg-success mb-3">
                         <div class="card-header">Administração</div>
                         <div class="card-body">
                         <h5 class="card-title">Acesse a tela de administração</h5>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     
-                    <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card card-control text-white bg-danger mb-3">
                         <div class="card-header">Lista de usuário</div>
                         <div class="card-body">
                         <h5 class="card-title">Consulte e modifique usuários</h5>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     
-                    <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                    <div class="card card-control text-white bg-info mb-3">
                         <div class="card-header">Cadastro de usuário</div>
                         <div class="card-body">
                         <h5 class="card-title">Cadastro de novos usuários</h5>
@@ -42,6 +42,49 @@
                     </div>
                 </div>
 
+                <h5 class='p-3 mb-3'> <i class="fas fa-star pr-3 pl-0 "></i>Cadastro de eleições</h5>
+                <div class="card-deck">
+                    <div class="card card-control text-white bg-success mb-3">
+                        <div class="card-header">Cadastro da eleição</div>
+                        <div class="card-body">
+                        <h5 class="card-title">Cadastro de novos turnos</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <a href='http://127.0.0.1:8000/admin/votacao/eleicao/' target='_blank' class="btn stretched-link b-0 btn-success">Abrir</a>
+                        </div>
+                    </div>
+                    <div class="card card-control text-white bg-info mb-3">
+                        <div class="card-header">Cadastro de turnos</div>
+                        <div class="card-body">
+                        <h5 class="card-title">Cadastro de novos turnos</h5>
+                        <!-- <p class="card-text">Some quick example text tso build on the card title and make up the bulk of the card's content.</p> -->
+                        <a href='http://127.0.0.1:8000/admin/votacao/turno/' target='_blank' class="btn stretched-link b-0 btn-info">Abrir</a>
+                        </div>
+                    </div>
+                    <div class="card card-control text-white bg-danger mb-3">
+                        <div class="card-header">Cadastro de candidatos</div>
+                        <div class="card-body">
+                        <h5 class="card-title">Cadastro de novos turnos</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <a href='http://127.0.0.1:8000/admin/votacao/candidato/' target='_blank' class="btn stretched-link b-0 btn-danger">Abrir</a>
+                        </div>
+                    </div>
+                    <div class="card card-control text-white bg-success mb-3">
+                        <div class="card-header">Votos por turno</div>
+                        <div class="card-body">
+                        <h5 class="card-title">Associação dos votos dos candidatos por turno</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <a href='http://127.0.0.1:8000/admin/votacao/votacaoturnocandidato/' target='_blank' class="btn stretched-link b-0 btn-success">Abrir</a>
+                        </div>
+                    </div>
+                    <div class="card card-control text-dark bg-white mb-3">
+                        <div class="card-header">Votos</div>
+                        <div class="card-body">
+                        <h5 class="card-title">Registro dos votos</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <a href='http://127.0.0.1:8000/admin/votacao/registrovotacao/' target='_blank' class="btn stretched-link b-0 btn-light">Abrir</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

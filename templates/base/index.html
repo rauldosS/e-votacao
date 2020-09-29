@@ -38,7 +38,7 @@
               <a href='{% url "home:home" %}' data-content="Notificação" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'Home' %}active{% endif %}"><i class="fas fa-bell fa-2x text-theme"></i></a>
                 
               {% if user.user_admin %}
-                <a href='{% url "controle:home" %}' data-content="Painel de controle" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-user-shield fa-2x text-theme"></i></a>
+                <a href='{% url "controle:home" %}' data-content="Painel de controle" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'controle' %}active{% endif %}""><i class="fas fa-user-shield fa-2x text-theme"></i></a>
               {% endif %}
               <a href='/accounts/logout/' data-content="Sair" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-power-off fa-2x text-theme"></i></a>
             </ul>

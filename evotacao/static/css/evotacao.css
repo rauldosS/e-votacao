@@ -566,3 +566,8 @@ label[name="checkbox"]::before {
 .button-bar a.active {
   background-color: #fff !important;
 }
+
+.card-control {
+  max-width: 18rem;
+  min-width: 18rem;
+}

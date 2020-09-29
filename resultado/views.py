@@ -12,20 +12,18 @@ from django.db.models import Q
 # from django.contrib.auth.models import User
 import json
 
-module = 'Resultados'
-
 # Create your views here.
 @login_required
 def home(request):
     title = 'Resultados'
 
-    datas = get_resultados(request)
+    dados = get_resultados(request)
 
-    return render(request, 'resultado/home.html', {'title': title, 'module': module, 'datas': datas})
+    return render(request, 'resultado/home.html', {'title': title, 'dados': dados})
 
 def get_resultados(request):
-    eleicoes = Eleicao.objects.all()
-    turnos = Turno.objects.all()
+    eleicoes = Eleicao.objects.all().order_by('ano')[::0]
+    turnos = Turno.objects.filter(ativo=True)
     votacoesTurnosCandidatos = VotacaoTurnoCandidato.objects.all()
 
     dados = { } # turnos
@@ -35,23 +33,27 @@ def get_resultados(request):
             eleicao.id : {
                 'ano': eleicao.ano,
                 'tipo': eleicao.get_tipo_display(),
-                'estado': eleicao.estado if eleicao.estado else 'Presidente',
+                'estado': eleicao.estado if eleicao.estado else 'Brasil',
                 'turnos': {}
             } 
         })
         
     for turno in turnos:
-        dados[turno.eleicao.id]['turnos'].update({ 
-                turno.turno: { }
+        dados[turno.eleicao.id]['turnos'].update({
+                turno.turno: { 'dat_ini': turno.dat_ini, 'dat_fim': turno.dat_fim, 'participantes': {} }
             })
 
         for votacaoTurnoCandidato in votacoesTurnosCandidatos:
             
             if votacaoTurnoCandidato.turno.id == turno.id:
-                print(votacaoTurnoCandidato.candidato.nome)
 
-                dados[turno.eleicao.id]['turnos'][turno.turno].update({
-                    votacaoTurnoCandidato.candidato.nome: votacaoTurnoCandidato.votos
+                dados[turno.eleicao.id]['turnos'][turno.turno]['participantes'].update({
+                    votacaoTurnoCandidato.candidato.id: {
+                        'nome': votacaoTurnoCandidato.candidato.nome,
+                        'votos': votacaoTurnoCandidato.votos
+                    }
                 })
+
+    print(dados)
 
     return dados
