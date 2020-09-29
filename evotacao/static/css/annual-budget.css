@@ -25,19 +25,19 @@ html {
 }
 
 .button-bar a:nth-child(1).active {
-  color: #f87a00;
+  color: #009b3a;
 }
 .button-bar a:nth-child(2).active {
-  color: #e96d35;
+  color: #009b3a;
 }
 .button-bar a:nth-child(3).active {
-  color: #dc4e45;
+  color: #009b3a;
 }
 .button-bar a:nth-child(4).active {
-  color: #ce2f53;
+  color: #009b3a;
 }
 .button-bar a:nth-child(5).active {
-  color: rgb(186, 0, 104) !important;
+  color: #009b3a !important;
 }
 .button-bar a {
   padding-top: 3px;

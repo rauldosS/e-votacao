@@ -16,7 +16,7 @@
                 <div class="card-deck">
                 {% for id, dados in eleicoes.items %}
                     <div class="card text-white bg-{{ dados.color }} mb-3" style="max-width: 18rem;">
-                        <div class="card-header">Turno {{ dados.turno }}</div>
+                        <div class="card-header">Turno {{ dados.turno }}<span style="position: absolute; right: 20px;">{{ dados.dat_ini|date:'Y' }}</span></div>
                         <div class="card-body">
                         <h5 class="card-title">Eleição para {{ dados.tipo }}</h5>
                         <p class="card-text">de {{ dados.dat_ini|date:'d/m/Y' }} até {{ dados.dat_fim|date:'d/m/Y' }}.</p>

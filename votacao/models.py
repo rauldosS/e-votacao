@@ -106,6 +106,9 @@ class VotacaoTurnoCandidato(models.Model):
     candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
     votos = models.IntegerField(default=0, blank=True, null = True, editable=False)
 
+    def __str__(self):
+        return f'{self.id}, {self.turno}, {self.candidato}'
+
     class Meta:
         verbose_name = 'Votação por turno por candidato'
         verbose_name_plural = 'Votações por turno por candidato'
@@ -117,6 +120,14 @@ class RegistroVotacao(models.Model):
     turno = models.ForeignKey(Turno, on_delete=models.CASCADE)
     candidato = models.ForeignKey(Candidato, on_delete=models.CASCADE)
     data = models.DateTimeField(auto_now_add=True, blank=True)
+
+    usuario = models.IntegerField()
+    eleicao = models.IntegerField()
+    turno = models.IntegerField()
+    candidato = models.IntegerField()
+    data = models.DateTimeField(auto_now_add=True, blank=True)
+
+    
 
     class Meta:
         verbose_name = 'Registro de votação'

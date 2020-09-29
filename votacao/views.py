@@ -9,6 +9,7 @@ from votacao.models import Candidato, Turno, Eleicao, VotacaoTurnoCandidato, Reg
 from datetime import date, timedelta, datetime
 from django.utils import timezone
 from django.db.models import Q
+# from django.contrib.auth.models import User
 import json
 
 # Create your views here.
@@ -43,7 +44,8 @@ def home(request):
                 
                 data.update({
                     eleicao.id: {
-                        'turno': turno.id,
+                        'turno_id': turno.id,
+                        'turno': turno.turno,
                         'dat_ini': turno.dat_ini, 
                         'dat_fim': turno.dat_fim,
                         'tipo': eleicao.get_tipo_display(),
@@ -69,7 +71,7 @@ def votar(request, turno_id=0):
 
     try:
         turno = Turno.objects.get(id=turno_id)
-        registro = RegistroVotacao.objects.filter(usuario=request.user, turno=turno)
+        registro = RegistroVotacao.objects.filter(usuario=request.user.id, turno=turno.id)
         eleicao = Eleicao.objects.get(id=turno.eleicao.id)
 
         dados_eleicao = {
@@ -117,10 +119,45 @@ def dados_candidato(request):
     }
 
     dados['candidato'].update({
+        'id': candidato.id,
         'titulo': candidato.titulo,
         'nome': candidato.nome,
         'numero': candidato.numero,
-        'partido': candidato.partido
+        'partido': candidato.partido,
+        'foto': str(candidato.foto),
     })
 
     return JsonResponse(dados)
+
+@login_required
+def registrar_votacao(request):
+
+    data = json.loads(request.POST.get('dados', ''))
+    
+    votacaoTurnoCandidato = VotacaoTurnoCandidato.objects.get(id=int(data['turno_votacao']))
+
+    try:
+        votacaoTurnoCandidato.votos += 1
+        votacaoTurnoCandidato.save()
+
+        usuario = request.user
+        turno = Turno.objects.get(id=int(votacaoTurnoCandidato.turno.id))
+        eleicao = Eleicao.objects.get(id=int(turno.eleicao.id))
+        candidato = Candidato.objects.get(id=int(data['candidato_id']))
+
+        # print(f'eleicao {turno.id}')
+
+        reg = RegistroVotacao.objects.create(
+            usuario = int(usuario.id),
+            eleicao = int(eleicao.id),
+            turno = int(turno.id),
+            candidato = int(candidato.id)
+        )
+
+        reg.save()
+
+        registro = RegistroVotacao.objects.filter(usuario=request.user, turno=turno)
+
+        return HttpResponseRedirect(reverse('votacao:inicio'))
+    except Turno.DoesNotExist:
+        return HttpResponseRedirect(reverse('votacao:inicio'))

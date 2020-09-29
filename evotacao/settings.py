@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'controle',
     'face_detector',
     'votacao',
+    'resultado',
 ]
 
 MIDDLEWARE = [
@@ -147,7 +148,7 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/votacao/inicio'
 
-LOGOUT_REDIRECT_URL = '/accounts/login'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'data/') # 'data' is my media folder
-# MEDIA_URL = '/'
+MEDIA_URL = '/'

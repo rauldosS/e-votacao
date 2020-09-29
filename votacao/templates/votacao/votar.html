@@ -10,32 +10,42 @@
                 <h1 class='p-1 m-3 '><i class="fas fa-vote-yea"></i></h1>
                 <span class='font-weight-normal my-auto' style='font-size: 1.5rem;'>Votar</span>
             </div>
-            <h5 class='p-3 mb-3'> <i class="fas fa-bars pr-3 pl-0 "></i>Selecione o candidato para realizar a confirmação de seu voto.</h5>
+            
+            {% if not registro %}
+                {% if eleicao.candidatos %}
+                <h5 class='p-3 mb-3'> <i class="fas fa-bars pr-3 pl-0 "></i>Selecione o candidato para realizar a confirmação de seu voto.</h5>
 
-            <div class="container">
-                {% if not registro %}
+                <div class="container">
                     <div class="card-deck">
-                    {% for id, candidato in eleicao.candidatos.items %}    
-                        <div class="card" style="width: 18rem;">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <img class="card-img-top card-img-top embed-responsive-item" src="{{ MEDIA_URL }}{{ candidato.foto }}" alt="Card image cap">
+                        {% for id, candidato in eleicao.candidatos.items %}    
+                            <div class="card" style="max-width: 18rem;">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <img class="card-img-top card-img-top embed-responsive-item" src="{{ MEDIA_URL }}{{ candidato.foto }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                <h5 class="card-title">{{ candidato.nome }}</h5>
+                                <p class="card-text">{{ candidato.partido }} - {{ candidato.estado }} - {{ candidato.numero }}</p>
+                                <button onclick="dados_candidato({{ id|safe }}, {{ candidato.turno|safe }})" class="btn btn-primary btn-success" type="button" data-toggle="modal" data-target="#myModal">Selecionar este candidato</button>
+                                </div>
                             </div>
-                            <div class="card-body">
-                            <h5 class="card-title">{{ candidato.nome }}</h5>
-                            <p class="card-text">{{ candidato.partido }} - {{ candidato.estado }} - {{ candidato.numero }}</p>
-                            <button onclick="dados_candidato({{ id|safe }}, {{ candidato.turno|safe }})" class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal">Votar</button>
-                            </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
                     </div>
-
-                    <!-- Voto em branco -->
+                </div>
                 {% else %}
-                    <div class="row d-flex justify-content-center">
-                        <h4>Você já votou nesta eleição</h4>
+                    <div class="d-flex flex-column align-content-center flex-wrap justify-content-center" style="height: calc(100% - 26%);">
+                        <i class="fas fa-user-times text-center fa-8x p-3 mb-3"></i>
+                        <h3>Está eleição ainda não possui nenhum candidato cadastrado para votação.</h3>
                     </div>
                 {% endif %}
-            </div>
+
+                <!-- Voto em branco -->
+            {% else %}
+                <div class="d-flex flex-column align-content-center flex-wrap justify-content-center" style="height: calc(100% - 26%);">
+                    <i class="fas fa-user-check text-center fa-8x p-3 mb-3"></i>
+                    <h3>Você já votou nesta eleição, obrigado!</h3>
+                </div>
+            {% endif %}
+
         </div>
     </div>
 </div>
@@ -54,19 +64,28 @@
             </button>
         </div>
         <div class="modal-body">
-            <h5><b>Nome: </b><span id="nome_candidato"></span></h5>
-            <h5><b>Título: </b><span id="titulo_candidato"></span></h5>
-            <h5><b>Número: </b><span id="numero_candidato"></span></h5>
-            <h5><b>Partido: </b><span id="partido_candidato"></span></h5>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h5><b>Nome: </b><span class="font-weight-normal" id="nome_candidato"></span></h5>
+                        <h5><b>Título: </b><span class="font-weight-normal" id="titulo_candidato"></span></h5>
+                        <h5><b>Número: </b><span class="font-weight-normal" id="numero_candidato"></span></h5>
+                        <h5><b>Partido: </b><span class="font-weight-normal" id="partido_candidato"></span></h5>
+                    </div>
+                    <div class="col-md-6">
+                        <img id="foto_candidato" class="card-img-top card-img-top embed-responsive-item" src="" alt="Card image cap">
+                    </div>
+                </div>
 
-            <div class="card-text text-center">
-                <p class="text-success">Aperte o botão verde para confirmar este voto</p>
-                <p class="text-danger">Aperte o botão vermelho para corrigir este voto</p>
+                <div class="card-text text-center">
+                    <h5 class="text-success font-weight-bold">Aperte o botão verde para confirmar este voto</h5>
+                    <h5 class="text-danger font-weight-bold">Aperte o botão vermelho para corrigir este voto</h5>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary btn-danger" data-dismiss="modal">Corrigir</button>
-            <button id="btn-confirmar" assoc="" type="button" class="btn btn-primary btn-success">Confirmar</button>
+            <button onclick="votar(this)" id="btn-confirmar" assoc="" type="button" class="btn btn-primary btn-success">Confirmar</button>
         </div>
         </div>
     </div>
@@ -96,12 +115,14 @@ const dados_candidato = async (candidato_id, turno_id) => {
                 const titulo_candidato = document.querySelector('#titulo_candidato')
                 const numero_candidato = document.querySelector('#numero_candidato')
                 const partido_candidato = document.querySelector('#partido_candidato')
+                const foto_candidato = document.querySelector('#foto_candidato')
 
-                btn_confirmar.setAttribute('id', json.votacaoTurnoCandidato)
+                btn_confirmar.setAttribute('onclick', `votar(${json.votacaoTurnoCandidato}, ${json.candidato.id})`)
                 nome_partido.textContent = json.candidato.nome
                 titulo_candidato.textContent = json.candidato.titulo
                 numero_candidato.textContent = json.candidato.numero
                 partido_candidato.textContent = json.candidato.partido
+                foto_candidato.setAttribute('src', `/${json.candidato.foto}`)
             }
         }
     }
@@ -113,6 +134,34 @@ const dados_candidato = async (candidato_id, turno_id) => {
 
     xhttp.send("dados=" + JSON.stringify(dados))
 }  
+
+const votar = async (turno_votacao, candidato_id) => {
+    event.preventDefault()
+    var xhttp = new XMLHttpRequest()
+
+    xhttp.open("POST", "/votacao/registrar_votacao/", true)
+
+    xhttp.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+    xhttp.setRequestHeader("X-CSRFToken", getCookie('csrftoken'))
+
+    xhttp.responseType = 'json'
+    xhttp.onreadystatechange = function(data) {
+        if (this.readyState == 4 && this.status == 200) {
+            let json = xhttp.response
+            if (json) {
+                console.log(json)
+            }
+        }
+    }
+
+    let dados = {
+        'turno_votacao': turno_votacao,
+        'candidato_id': candidato_id
+    }
+
+    xhttp.send("dados=" + JSON.stringify(dados))
+}
 
 function getCookie(name) {
     var cookieValue = null;

@@ -22,12 +22,12 @@ class CandidatoAdmin(admin.ModelAdmin):
 
 @admin.register(VotacaoTurnoCandidato)
 class VotacaoTurnoCandidato(admin.ModelAdmin):
-    list_filter = ['id', 'candidato', 'turno']
+    list_display = ['id', 'candidato', 'turno', 'votos']
     list_filter = ['candidato', 'turno']
     search_fields = ['candidato', 'turno']
 
 @admin.register(RegistroVotacao)
 class RegistroVotacaoAdmin(admin.ModelAdmin):
-    list_filter = ['id', 'eleicao', 'turno', 'candidato', 'data']
+    list_display = ['id', 'eleicao', 'turno', 'candidato', 'data']
     list_filter = ['candidato', 'turno']
     search_fields = ['candidato', 'turno', 'data', 'eleicao']
