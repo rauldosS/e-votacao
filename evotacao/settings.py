@@ -146,7 +146,7 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'home/static'),
 ]
 
-LOGIN_REDIRECT_URL = '/votacao/inicio'
+LOGIN_REDIRECT_URL = '/votacao/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 

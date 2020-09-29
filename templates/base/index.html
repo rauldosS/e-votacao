@@ -32,7 +32,7 @@
           <div class='container flex-column d-flex h-100 pt-2' style="place-content: center; height: 90vh !important;">
             <ul class="d-flex flex-column pl-0 mb-0 ">
               <a href='{% url "home:home" %}' data-content="Início" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'home' %}active{% endif %}"><i class="fas fa-home fa-2x text-theme"></i></a>
-              <a href='{% url "votacao:inicio" %}' data-content="Votação" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'votacao' %}active{% endif %}"><i class="fas fa-vote-yea fa-2x text-theme"></i></a>
+              <a href='{% url "votacao:votacao" %}' data-content="Votação" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'votacao' %}active{% endif %}"><i class="fas fa-vote-yea fa-2x text-theme"></i></a>
               <a href='{% url "resultado:resultado" %}' data-content="Resultados" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'resultado' %}active{% endif %}"><i class="fas fa-chart-bar fa-2x text-theme"></i></a>
               <a href='{% url "usuarios:dados" %}' data-content="Usuário" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'usuarios' %}active{% endif %}"><i class="fas fa-user fa-2x text-theme"></i></a>
               <a href='{% url "home:home" %}' data-content="Notificação" class="list-group-item list-group-item-action border-0 mt-1 mb-1 {% if request.resolver_match.app_name == 'Home' %}active{% endif %}"><i class="fas fa-bell fa-2x text-theme"></i></a>
@@ -40,7 +40,7 @@
               {% if user.user_admin %}
                 <a href='{% url "controle:home" %}' data-content="Painel de controle" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-user-shield fa-2x text-theme"></i></a>
               {% endif %}
-              <a href='/accounts/logout' data-content="Sair" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-power-off fa-2x text-theme"></i></a>
+              <a href='/accounts/logout/' data-content="Sair" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-power-off fa-2x text-theme"></i></a>
             </ul>
           </div>
         </div>
@@ -68,13 +68,13 @@
       <div class='w-100 d-xl-none d-lg-none button-bar shadow-lg d-flex'>
         <a href='{% url "home:home" %}' class="flex-fill rounded m-1 position-relative {% if request.resolver_match.app_name == 'home' %}active{% endif %}"> <i class="fas fa-home"></i></i></a>
         <a href='{% url "resultado:resultado" %}' class="flex-fill rounded m-1 {% if request.resolver_match.app_name == 'resultado' %}active{% endif %}"> <i class="fas fa-chart-bar"></i></a>
-        <a href='{% url "votacao:inicio" %}' class="flex-fill rounded m-1 {% if request.resolver_match.app_name == 'votacao' %}active{% endif %}"> <i class="fas fa-vote-yea"></i></a>
+        <a href='{% url "votacao:votacao" %}' class="flex-fill rounded m-1 {% if request.resolver_match.app_name == 'votacao' %}active{% endif %}"> <i class="fas fa-vote-yea"></i></a>
         <a href='{% url "usuarios:dados" %}' class="flex-fill rounded m-1 {% if request.resolver_match.app_name == 'usuarios' %}active{% endif %}"> <i class="fas fa-user"></i></a>
 
         {% if user.user_admin %}
             <a href='{% url "controle:home" %}' class="flex-fill rounded m-1 {% if request.resolver_match.app_name == 'controle' %}active{% endif %}"> <i class="fas fa-user-shield"></i></a>  
         {% endif %}
-        <a href='/accounts/logout' data-content="Sair" class="list-group-item list-group-item-action border-0 mt-1 mb-1"><i class="fas fa-power-off fa-2x text-theme"></i></a>
+        <a href='/accounts/logout/' class="flex-fill rounded m-1"> <i class="fas fa-power-off"></i></a>
       </div>
       {% endif %}
     

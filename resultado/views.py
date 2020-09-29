@@ -19,25 +19,39 @@ module = 'Resultados'
 def home(request):
     title = 'Resultados'
 
-    datas = get_datas(request)
+    datas = get_resultados(request)
 
     return render(request, 'resultado/home.html', {'title': title, 'module': module, 'datas': datas})
 
-def get_datas(request):
-    pass
-#     expenses = Expense.objects.filter(~Q(paid_out=True), user=request.user, date_expense__year=datetime.now().year)
-#     incomes = Income.objects.filter(user=request.user, dt_inicial__year=datetime.now().year)
-#     parcels = Parcel.objects.filter(expense__in=(expenses), date__year=datetime.now().year)
-    
-#     datas  = {
-#         'Rendimentos': {'values': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'color': '#27ae60'},
-#         'Despesas': {'values': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 'color': '#ee5253'}
-#     }
+def get_resultados(request):
+    eleicoes = Eleicao.objects.all()
+    turnos = Turno.objects.all()
+    votacoesTurnosCandidatos = VotacaoTurnoCandidato.objects.all()
 
-#     for parcel in parcels:
-#         datas['Despesas']['values'][int(parcel.date.strftime('%m')) - 1] += float(parcel.value)
+    dados = { } # turnos
 
-#     for income in incomes:
-#         datas['Rendimentos']['values'][int(income.dt_inicial.strftime('%m')) - 1] += float(income.value_income)
+    for eleicao in eleicoes:
+        dados.update({
+            eleicao.id : {
+                'ano': eleicao.ano,
+                'tipo': eleicao.get_tipo_display(),
+                'estado': eleicao.estado if eleicao.estado else 'Presidente',
+                'turnos': {}
+            } 
+        })
+        
+    for turno in turnos:
+        dados[turno.eleicao.id]['turnos'].update({ 
+                turno.turno: { }
+            })
 
-#     return datas
+        for votacaoTurnoCandidato in votacoesTurnosCandidatos:
+            
+            if votacaoTurnoCandidato.turno.id == turno.id:
+                print(votacaoTurnoCandidato.candidato.nome)
+
+                dados[turno.eleicao.id]['turnos'][turno.turno].update({
+                    votacaoTurnoCandidato.candidato.nome: votacaoTurnoCandidato.votos
+                })
+
+    return dados
