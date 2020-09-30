@@ -131,6 +131,7 @@ def dados_candidato(request):
 
 @login_required
 def registrar_votacao(request):
+    title = 'Votação'
 
     data = json.loads(request.POST.get('dados', ''))
     
@@ -154,10 +155,16 @@ def registrar_votacao(request):
             candidato = int(candidato.id)
         )
 
-        reg.save()
+        registro = RegistroVotacao.objects.filter(usuario=int(request.user.id), turno=int(turno.id))
 
-        registro = RegistroVotacao.objects.filter(usuario=request.user, turno=turno)
+        try:
+            reg.save()
 
-        return HttpResponseRedirect(reverse('votacao:inicio'))
+            return JsonResponse({'data': 'ok'})            
+        except:
+            pass
+        
+
+        
     except Turno.DoesNotExist:
-        return HttpResponseRedirect(reverse('votacao:inicio'))
+        return HttpResponseRedirect(reverse('votacao:votacao'))

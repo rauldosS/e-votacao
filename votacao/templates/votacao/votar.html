@@ -150,7 +150,11 @@ const votar = async (turno_votacao, candidato_id) => {
         if (this.readyState == 4 && this.status == 200) {
             let json = xhttp.response
             if (json) {
-                console.log(json)
+                if (json.data == 'ok') {
+                    alert('Votação registrada')
+                    
+                    window.location.href = `/votacao/`
+                }
             }
         }
     }
